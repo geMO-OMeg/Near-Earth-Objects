@@ -38,7 +38,6 @@ class NearEarthObject:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-
         self.name = info.get('name')
         self.name = None if self.name in (' ', '') else self.name
         self.designation = info.get('designation')
@@ -49,6 +48,17 @@ class NearEarthObject:
         self.approaches = []
 
     def isDigitorNone(self, value):
+        """
+        Convert a value to a float, returning NaN if conversion fails.
+
+        This method attempts to convert the provided value to a float. 
+        If the conversion raises a ValueError (indicating that the value 
+        is not a valid number), it returns NaN (Not a Number) instead.
+
+        :param value: The value to be converted to a float.
+        :return: The float representation of the value if successful, 
+                otherwise NaN.
+        """
         try:
             return float(value)
         except ValueError:
@@ -58,7 +68,6 @@ class NearEarthObject:
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
-       
         if self.name:
             return f"{self.designation} ({self.name})"
         else:
@@ -66,7 +75,6 @@ class NearEarthObject:
 
     def __str__(self):
         """Return `str(self)`."""
-       
         hazardous_status = "is" if self.hazardous else "is not"
         return f"NEO {self.name} has a diameter of {self.diameter:.3f} km and {hazardous_status} potentially hazardous."
 
@@ -104,7 +112,6 @@ class CloseApproach:
 
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
-       
         self._designation = info.get('designation')
         self.time = cd_to_datetime(info.get('time'))
         self.distance = info.get('distance')
@@ -127,7 +134,6 @@ class CloseApproach:
         formatted string that can be used in human-readable representations and
         in serialization to CSV and JSON files.
         """
-
         if self.neo.name:
             return f"{datetime_to_str(self.time)}, {self._designation} ({self.neo.name})"
         else:

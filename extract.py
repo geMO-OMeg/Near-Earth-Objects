@@ -52,7 +52,6 @@ def load_approaches(cad_json_path):
     :param neo_csv_path: A path to a JSON file containing data about close approaches.
     :return: A collection of `CloseApproach`es.
     """
-
     aproach_list = []
     try:
         with open(cad_json_path, mode='r') as file:

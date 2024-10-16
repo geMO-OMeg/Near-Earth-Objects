@@ -35,7 +35,9 @@ class AttributeFilter:
 
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
+
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -67,7 +69,7 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
-        """compares filter attribute """
+        """Compare filter attribute."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
@@ -79,33 +81,115 @@ Args: approach: a CloseApproach object
 returns: an attribute of interest (date(datetime), distance(float), velocity(float), diameter(float) or hazard(bool))
 """
 class DateFilter(AttributeFilter):
+    """
+    Filter to retrieve the date attribute from an approach.
+
+    This class inherits from the AttributeFilter base class and 
+    provides a method to extract the date from an approach's 
+    time attribute.
+    """
 
     @classmethod
     def get(cls, approach):
+        """
+        Get the date from the provided approach.
+
+        Args:
+            approach: An object that has a time attribute.
+
+        Returns:
+            The date component of the approach's time.
+        """
         return approach.time.date()
 
 class DistFilter(AttributeFilter):
+    """
+    Filter to retrieve the distance attribute from an approach.
+
+    This class inherits from the AttributeFilter base class and 
+    provides a method to extract the distance from an approach.
+
+    """
 
     @classmethod
     def get(cls, approach):
+        """
+        Get the distance from the provided approach.
+
+        Args:
+            approach: An object that has a distance attribute.
+
+        Returns:
+            The distance of the approach.
+        """
         return approach.distance
 
 class VeloFilter(AttributeFilter):
+    """
+    Filter to retrieve the velocity attribute from an approach.
+
+    This class inherits from the AttributeFilter base class and 
+    provides a method to extract the velocity from an approach.
+
+    """
 
     @classmethod
     def get(cls, approach):
+        """
+        Get the velocity from the provided approach.
+
+        Args:
+            approach: An object that has a velocity attribute.
+
+        Returns:
+            The velocity of the approach.
+        """
         return approach.velocity 
 
 class DiamFilter(AttributeFilter):
+    """
+    Filter to retrieve the diameter attribute from a near-Earth object (NEO).
+
+    This class inherits from the AttributeFilter base class and 
+    provides a method to extract the diameter from an approach's 
+    neo attribute.
+
+    """
 
     @classmethod
     def get(cls, approach):
+        """
+        Get the diameter from the provided approach's NEO.
+
+        Args:
+            approach: An object that has a neo attribute with a diameter.
+
+        Returns:
+            The diameter of the NEO associated with the approach.
+        """
         return approach.neo.diameter
 
 class HazFilter(AttributeFilter):
+    """
+    Filter to check if a near-Earth object (NEO) is hazardous.
+
+    This class inherits from the AttributeFilter base class and 
+    provides a method to determine if the NEO associated with 
+    an approach is hazardous.
+
+    """
 
     @classmethod
     def get(cls, approach):
+        """
+        Determine if the NEO associated with the approach is hazardous.
+
+        Args:
+            approach: An object that has a neo attribute with a hazardous flag.
+
+        Returns:
+            A boolean indicating whether the NEO is hazardous.
+        """
         return approach.neo.hazardous
 
 
@@ -115,7 +199,7 @@ def create_filters(date=None, start_date=None, end_date=None,
                    diameter_min=None, diameter_max=None,
                    hazardous=None):
     """Create a collection of filters from user-specified criteria.
-
+    
     Each of these arguments is provided by the main module with a value from the
     user's options at the command line. Each one corresponds to a different type
     of filter. For example, the `--date` option corresponds to the `date`
@@ -143,7 +227,6 @@ def create_filters(date=None, start_date=None, end_date=None,
     :param hazardous: Whether the NEO of a matching `CloseApproach` is potentially hazardous.
     :return: A collection of filters for use with `query`.
     """
-
     """
     filter_mappings: Maps each filter type to its corresponding filter class and operator.
     filter_values: Stores the values for each filter type.
@@ -191,15 +274,15 @@ def create_filters(date=None, start_date=None, end_date=None,
 
 
 def limit(iterator, n=None):
-    """Produce a limited stream of values from an iterator.
-
+    """
+    Produce a limited stream of values from an iterator.
+    
     If `n` is 0 or None, don't limit the iterator at all.
 
     :param iterator: An iterator of values.
     :param n: The maximum number of values to produce.
     :yield: The first (at most) `n` values from the iterator.
     """
-    
     if n is None or n == 0:
         yield from iterator
     else:

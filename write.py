@@ -1,6 +1,7 @@
 """
-This module exports two functions: `write_to_csv` and `write_to_json`, each of
-which accept an `results` stream of close approaches and a path to which to
+This module exports two functions: `write_to_csv` and `write_to_json`.
+
+Each function accepts an `results` stream of close approaches and a path to which to
 write the data.
 
 These functions are invoked by the main module with the output of the `limit`
@@ -16,7 +17,7 @@ PROJECT_ROOT = Path(__file__).parent.resolve()
 
 def write_to_csv(ca_data, filename):
     """
-    iterable of `CloseApproach` objects to a CSV file.
+    Iterate `CloseApproach` objects to a CSV file.
 
     The precise output specification is in `README.md`. Roughly, each output row
     corresponds to the information in a single close approach from the `results`
@@ -49,8 +50,8 @@ def write_to_csv(ca_data, filename):
             writer.writerow(content)
 
 def write_to_json(ca_data, filename):
-    """ 
-    iterable of `CloseApproach` objects to a JSON file.
+    """
+    Iterate `CloseApproach` objects to a JSON file.
 
     The precise output specification is in `README.md`. Roughly, the output is a
     list containing dictionaries, each mapping `CloseApproach` attributes to
@@ -60,7 +61,6 @@ def write_to_json(ca_data, filename):
     :param data: CloseApproach objects.
     :param filename: path to where data to be saved.
     """
-    
     if filename is None:
         filename = 'CloseApproach.json'  # Or some other default path
 
